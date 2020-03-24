@@ -1,0 +1,14 @@
+material corn_stack/Diffuse
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture Corn_stack_Diffuse.png
+      }
+    }
+  }
+}

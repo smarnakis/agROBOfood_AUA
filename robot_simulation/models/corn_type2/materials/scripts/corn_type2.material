@@ -1,0 +1,14 @@
+material corn_type2/Diffuse
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/Corn_stack_Diffuse.png
+        scale 1 1 1
+      }
+    }
+  }
+}

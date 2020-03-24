@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="rock_type1">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+        <geometry>
+          <mesh>
+              <uri>model://rock_type1/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+              <uri>model://rock_type1/meshes/model.dae</uri>
+          </mesh>
+        </geometry>
+       <!-- <material>
+          <script>
+            <uri>model://corn_type3/materials/scripts</uri>
+            <uri>model://corn_type3/materials/textures</uri>
+            <name>corn_type3Mat/Diffuse</name>
+          </script>
+        </material>-->
+      </visual>				
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="tree_type1">
+    <static>true</static>
+    <link name="corn_stalk4_link">
+      <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.3 0.3 10</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+              <uri>model://tree_type1/meshes/model.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+      </visual>				
+    </link>
+  </model>
+</sdf>

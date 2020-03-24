@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.5">
+	<model name="terrain1">
+		<static>true</static>
+		<link name="terrain1_link">
+			<collision name="terrain1_collision">
+				<geometry>
+					<box>
+						<size>1 1 1</size>
+					</box>
+				</geometry>
+			</collision>
+
+			<visual name="terrain1_mesh">
+				<geometry>
+					<mesh>
+						<uri>model://terrain1/meshes/model.dae</uri>
+						<scale>1 1 1</scale><!-- origin 85.9-->
+					</mesh>
+				</geometry>
+			</visual>
+		</link>
+	</model>
+</sdf>

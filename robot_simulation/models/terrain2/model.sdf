@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.5">
+	<model name="terrain2">
+		<static>true</static>
+		<link name="terrain2_link">
+			<pose>0 0 0 0 0 0</pose>
+			<collision name='collision'>
+        <geometry>
+        	<mesh>
+						<uri>model://terrain2/meshes/model.dae</uri>
+						<scale>4 4 1</scale><!-- origin 85.9-->
+					</mesh>
+	      </geometry>
+	      <surface>
+	        <friction>
+	          <ode>
+	            <mu>100</mu>
+	            <mu2>50</mu2>
+	          </ode>
+	        </friction>
+	        <bounce/>
+	        <contact>
+	          <ode/>
+	        </contact>
+	      </surface>
+	      <max_contacts>10</max_contacts>
+	    </collision>
+
+			<visual name="terrain2_mesh">
+				<geometry>
+					<mesh>
+						<uri>model://terrain2/meshes/model.dae</uri>
+						<scale>4 4 1</scale><!-- origin 85.9-->
+					</mesh>
+				</geometry>
+			</visual>
+		  <velocity_decay>
+	      <linear>0</linear>
+	      <angular>0</angular>
+	    </velocity_decay>
+	    <self_collide>0</self_collide>
+	    <kinematic>0</kinematic>
+	    <gravity>1</gravity>
+		</link>
+	</model>
+</sdf>

@@ -1,0 +1,4 @@
+husky_velocity_controller:
+  linear:
+    x:
+      max_velocity           : 2.0   # m/s

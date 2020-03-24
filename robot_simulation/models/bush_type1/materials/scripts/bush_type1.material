@@ -1,0 +1,13 @@
+material bush_type1/Diffuse
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/Vegetation_Bark_PaloVerde.jpg
+      }
+    }
+  }
+}

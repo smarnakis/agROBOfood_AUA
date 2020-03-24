@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="tree_type2">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+        <geometry>
+          <box>
+            <size>0.3 0.3 10</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+              <uri>model://tree_type2/meshes/model.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://tree_type2/materials/scripts</uri>
+            <uri>model://tree_type2/materials/textures</uri>
+            <name>tree_type2/Diffuse</name>
+          </script>
+        </material>
+      </visual>				
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,14 @@
+material tree_type3/Diffuse
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture ../textures/wood.png
+        scale 0.01 0.01
+      }
+    }
+  }
+}

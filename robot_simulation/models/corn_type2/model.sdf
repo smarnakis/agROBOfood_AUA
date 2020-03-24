@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <model name="corn_stalk2">
+    <static>true</static>
+    <link name="corn_stalk2_link">
+      <pose>0 0 0 0 0 0</pose>
+        <collision name="collision">
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+              <uri>model://corn_type2/meshes/model.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="corn_stalk2_visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <mesh>
+              <uri>model://corn_type2/meshes/model.stl</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://corn_type2/materials/scripts</uri>
+            <uri>model://corn_type2/materials/textures</uri>
+            <name>corn_type2/Diffuse</name>
+          </script>
+        </material>
+      </visual>				
+    </link>
+  </model>
+</sdf>

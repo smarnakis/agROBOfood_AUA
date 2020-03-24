@@ -1,0 +1,14 @@
+material corn_type3Mat/Diffuse
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture Material0.jpg
+      }
+    }
+  }
+}
