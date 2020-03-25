@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-
-  <arg name="world_name" default="$(find robot_simulation)/worlds/corn_field_simple.world"/>
-
+	<arg name="world_name" default="$(find robot_simulation)/worlds/test.world"/>
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="paused" value="false"/>
@@ -12,4 +10,6 @@
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
+  
+
 </launch>

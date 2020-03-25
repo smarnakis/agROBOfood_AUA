@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="host" default="169.254.59.180" />
+  <arg name="frame_id" default="laser" />	
+	<include file="$(find lms100)/launch/lms1xx.launch">
+		<arg name="host" value="$(arg host)" />
+    <arg name="frame_id" value="$(arg frame_id)" />
+  </include>
+</launch>
