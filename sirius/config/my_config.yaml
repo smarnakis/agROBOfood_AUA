@@ -1,0 +1,38 @@
+# Custom comfiguration file for my_husky
+
+# Husky velocity onboard controller
+husky_velocity_controller:
+  linear:
+    x:
+      has_velocity_limits    : true
+      max_velocity           : 0.4   # m/s
+      has_acceleration_limits: true
+      max_acceleration       : 0.8   # m/s^2
+  angular:
+    z:
+      has_velocity_limits    : true
+      max_velocity           : 0.5   # rad/s
+      has_acceleration_limits: true
+      max_acceleration       : 1.0   # rad/s^2
+
+# Twist_mux configuration, enables different velocity commands and prioritizes the desired (255 max 1 min)
+# locks: Full stop, used for emergency
+twist_mux:
+  topics:
+  - name    : joy
+    topic   : joy_teleop/cmd_vel
+    timeout : 0.5
+    priority: 10
+  - name    : interactive_marker
+    topic   : twist_marker_server/cmd_vel
+    timeout : 0.5
+    priority: 8
+  - name    : external
+    topic   : cmd_vel
+    timeout : 0.5
+    priority: 1
+  locks:
+  - name    : emergency_stop
+    topic   : e_stop
+    timeout : 0.0
+    priority: 255
