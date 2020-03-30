@@ -12,10 +12,13 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
   move_base_msgs
+  geometry_msgs
+  robot_localization
+  tf
 )
 
 
-generate_messages(DEPENDENCIES std_msgs actionlib_msgs)
+generate_messages(DEPENDENCIES std_msgs actionlib_msgs geometry_msgs)
 
 catkin_package(		
 )
@@ -27,7 +30,16 @@ include_directories(
 
 
 add_executable(simple_planer src/simple_planer.cpp)
+add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
 add_executable(emergancy_handler src/emergency_node.cpp)
 
+
+add_dependencies(
+	gps_planer 
+	${${PROJECT_NAME}_EXPORTED_TARGETS} 
+	${catkin_EXPORTED_TARGETS}
+)
+
 target_link_libraries(simple_planer ${catkin_LIBRARIES})
+target_link_libraries(gps_planer ${catkin_LIBRARIES})
 target_link_libraries(emergancy_handler ${catkin_LIBRARIES})

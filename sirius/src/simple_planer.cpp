@@ -1,4 +1,4 @@
-#include "my_husky.hpp"
+#include "sirius.hpp"
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 

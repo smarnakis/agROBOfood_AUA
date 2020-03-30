@@ -2,33 +2,20 @@
 <launch>
 
   <!-- Start EKF for localization -->
-<!--   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom"/> -->
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map"/>
+  <rosparam command="load" file="$(find sirius)/config/localization.yaml" />
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom"/>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map">
+    <remap from="odometry/filtered" to="odometry/filtered_map"/>
+  </node>
 
   <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" respawn="true">
-
-
-    <param name="magnetic_declination_radians" value="0"/>
-    <param name="yaw_offset" value="0"/>
-    <param name="zero_altitude" value="true"/>
-    <!--<rosparam param="datum">[44.8 , -0.7 , 0.0, odom, utm]</rosparam>-->
-    
-    <param name="broadcast_utm_transform" value="false"/>
-    <param name="publish_filtered_gps" value="false"/>
-
-    <param name="use_odometry_yaw" value="false"/>
-    <param name="wait_for_datum" value="false"/>
-
-
     <remap from="/imu/data" to="/imu/data" />
-    <remap from="/gps/fix" to="/navsta/fix" />
-    <remap from="/odometry/filtered" to="/odometry/filtered" />
+    <remap from="/gps/fix" to="/navsat/fix" />
+    <remap from="/odometry/filtered" to="/odometry/filtered_map" />
 
   </node>
 
-  <rosparam command="load" file="$(find sirius)/config/localization.yaml" />
-<!--   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization2">
-    <rosparam command="load" file="$(find sirius)/config/localization.yaml" />
-  </node> -->
 
 </launch>
