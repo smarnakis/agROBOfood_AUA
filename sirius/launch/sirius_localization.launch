@@ -1,15 +1,17 @@
 <?xml version="1.0"?>
 <launch>
 
-  <!-- Start EKF for localization -->
+  <!-- Load localization parameters -->
   <rosparam command="load" file="$(find sirius)/config/localization.yaml" />
 
+  <!-- Start EKF for localization for odom frame-->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom"/>
-
+  <!-- Start EKF for localization for map frame-->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map">
     <remap from="odometry/filtered" to="odometry/filtered_map"/>
   </node>
 
+  <!-- Start navsat node for gps==>UTP coords-->
   <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" respawn="true">
     <remap from="/imu/data" to="/imu/data" />
     <remap from="/gps/fix" to="/navsat/fix" />

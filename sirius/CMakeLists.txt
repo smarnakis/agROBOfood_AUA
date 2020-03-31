@@ -18,7 +18,11 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 
-generate_messages(DEPENDENCIES std_msgs actionlib_msgs geometry_msgs)
+generate_messages(DEPENDENCIES 
+	std_msgs 
+	actionlib_msgs 
+	geometry_msgs
+)
 
 catkin_package(		
 )
