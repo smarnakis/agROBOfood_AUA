@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Initiate map server with empty world -->
+<!--   <include file="$(find sirius)/launch/empty_world_map.launch"/>
+ -->  <!-- Spawn sirius in empty world -->
+  <include file="$(find sirius)/launch/simulation/sirius_empty_world.launch">
+  </include> 
+  <include file="$(find sirius)/launch/sirius_map_localisation.launch"/>
+  
+  <!-- Run rviz -->
+<!--   <include file="$(find husky_viz)/launch/view_robot.launch"/>
+ -->  <!-- Run husky_navigation to start move_base -->
+<!--   <include file="$(find husky_navigation)/launch/move_base.launch">
+  	<arg name="no_static_map" value="false"/>
+  </include> -->
+
+</launch>

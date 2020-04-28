@@ -3,9 +3,9 @@
 
   <!-- Load localization parameters -->
   <rosparam command="load" file="$(find sirius)/config/localization.yaml" />
+  <!-- Start EKF for localization for odom frame launched 
+      by spawn husky launch file-->
 
-  <!-- Start EKF for localization for odom frame-->
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom"/>
   <!-- Start EKF for localization for map frame-->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map">
     <remap from="odometry/filtered" to="odometry/filtered_map"/>

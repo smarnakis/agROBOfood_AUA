@@ -46,6 +46,5 @@
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
-    HUSKY_CONFIG_EXTRAS=/home/smarn/ros/aua_ws/src/agROBOfood_AUA/sirius/config/my_config.yaml
   </export>
 </package>
