@@ -13,8 +13,7 @@
   <include file="$(find sirius)/launch/navigation/move_base.launch">
     <arg name="no_static_map" value="true"/>
   </include>
-
-
+  <rosparam command="load" file="$(find sirius)/config/twist_mux.yaml" />
   <!-- Run rviz -->
 <!--   <include file="$(find husky_viz)/launch/view_robot.launch"/>
  -->
