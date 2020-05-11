@@ -95,7 +95,7 @@ public:
 	  stop_vel.angular.x = 0.0;
 	  stop_vel.angular.y = 0.0;
 	  stop_vel.angular.z = 0.0;
-	  if ( std::all_of(ran.begin(),ran.end(),[](float i){return i>1.5;}) ){
+	  if ( std::all_of(ran.begin(),ran.end(),[](float i){return i>0.55;}) ){
 	    ROS_INFO("ALL GOOD");
 	  }
 	  else{

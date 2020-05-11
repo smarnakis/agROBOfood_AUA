@@ -35,17 +35,17 @@ include_directories(
 )
 
 
-add_executable(simple_planer src/simple_planer.cpp)
+#add_executable(simple_planer src/simple_planer.cpp)
 add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
-add_executable(safety src/safety.cpp src/callbacks.cpp)
+add_executable(safety src/safety.cpp)
 
 
-add_dependencies(
-	gps_planer 
-	${${PROJECT_NAME}_EXPORTED_TARGETS} 
-	${catkin_EXPORTED_TARGETS}
-)
+#add_dependencies(
+#	gps_planer 
+#	${${PROJECT_NAME}_EXPORTED_TARGETS} 
+#	${catkin_EXPORTED_TARGETS}
+#)
 
-target_link_libraries(simple_planer ${catkin_LIBRARIES})
+#target_link_libraries(simple_planer ${catkin_LIBRARIES})
 target_link_libraries(gps_planer ${catkin_LIBRARIES})
 target_link_libraries(safety ${catkin_LIBRARIES})
