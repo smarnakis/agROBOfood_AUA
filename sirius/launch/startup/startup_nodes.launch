@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="safety_enabled" default="$(optenv SAFETY_ENABLED false)" />
+  <group if="$(arg safety_enabled)">
+    <include file="$(find sirius)/launch/safety.launch"/>
+  </group>
+</launch>
