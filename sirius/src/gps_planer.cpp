@@ -3,15 +3,7 @@
 typedef actionlib::SimpleActionClient <move_base_msgs::MoveBaseAction>
 MoveBaseClient; //create a type definition for a client called MoveBaseClient
 
-std::vector <std::pair<double, double>> waypointVect;
-std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
 
-geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
-int count = 0, waypointCount = 0, wait_count = 0;
-double numWaypoints = 0;
-double latiGoal, longiGoal, latiNext, longiNext;
-std::string utm_zone;
-std::string path_local, path_abs;
 
 int main(int argc, char** argv)
 {

@@ -1,5 +1,15 @@
 #include <sirius.hpp>
 
+std::vector <std::pair<double, double>> waypointVect;
+std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
+
+geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
+int count = 0, waypointCount = 0, wait_count = 0;
+double numWaypoints = 0;
+double latiGoal, longiGoal, latiNext, longiNext;
+std::string utm_zone;
+std::string path_local, path_abs;
+
 /*int countWaypointsInFile(std::string path_local)
 {
     path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
@@ -131,5 +141,44 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
         goal.target_pose.pose.orientation.w = 1.0;
     }
 
+    return goal;
+}
+
+move_base_msgs::MoveBaseGoal simpleGoal(tf::StampedTransform transform)
+{
+    move_base_msgs::MoveBaseGoal goal;
+    tf::Matrix3x3 rot_euler;
+    tf::Quaternion rot_quat;  
+    float X0,Y0,theta,X,Y,yaw_goal,x=1,y=0;
+
+    rot_quat = transform.getRotation();
+    X0 = transform.getOrigin().x();
+    Y0 = transform.getOrigin().y();
+    theta = rot_quat.getAngle();
+    
+    ROS_INFO("Origin: X0 = %f,Y0 = %f\n",X0,Y0);
+    ROS_INFO("Rotation: z = %f, w = %f\n",rot_quat.getZ(),rot_quat.getW());
+    ROS_INFO("Base <-- Odom rot angle: theta = %f\n",theta);
+
+    X = x*cos(theta) - y*sin(theta) + X0;
+    Y = y*cos(theta) + x*sin(theta) + Y0;
+    yaw_goal = atan2(Y-Y0,X-X0);
+
+    ROS_INFO("GOAL: X = %f,Y = %f\n",X,Y);
+    rot_euler.setEulerYPR(yaw_goal, 0, 0);
+    rot_euler.getRotation(rot_quat);
+    //Specify what frame we want the goal to be published in
+    goal.target_pose.header.frame_id = "odom";
+    goal.target_pose.header.stamp = ros::Time::now();
+
+    // Specify x and y goal
+    goal.target_pose.pose.position.x = X; //specify x goal
+    goal.target_pose.pose.position.y = Y; //specify y goal
+    goal.target_pose.pose.orientation.x = rot_quat.getX();
+    goal.target_pose.pose.orientation.y = rot_quat.getY();
+    goal.target_pose.pose.orientation.z = rot_quat.getZ();
+    goal.target_pose.pose.orientation.w = rot_quat.getW();
+/*    goal.target_pose.pose.orientation.w = 1.0;*/
+    
     return goal;
 }

@@ -69,10 +69,10 @@ geometry_msgs::PointStamped latLongtoUTM(double lati_input, double longi_input);
 geometry_msgs::PointStamped UTMtoMapPoint(geometry_msgs::PointStamped UTM_input);
 //Create moveBaseGoal msg for the move base action client.
 move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, geometry_msgs::PointStamped map_next, bool last_point);
-
+//Simple move_Base goal
+move_base_msgs::MoveBaseGoal simpleGoal(tf::StampedTransform map_pose);
 
 /* CallBack function headers */
-void safetyCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
 
 /* Classes */
 class safety

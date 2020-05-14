@@ -5,7 +5,6 @@ project(sirius)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-  husky_gazebo
   roscpp
   rospy
   std_msgs
@@ -35,7 +34,7 @@ include_directories(
 )
 
 
-#add_executable(simple_planer src/simple_planer.cpp)
+add_executable(simple_planer src/simple_planer.cpp src/functions.cpp)
 add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
 add_executable(safety src/safety.cpp)
 
@@ -46,6 +45,6 @@ add_executable(safety src/safety.cpp)
 #	${catkin_EXPORTED_TARGETS}
 #)
 
-#target_link_libraries(simple_planer ${catkin_LIBRARIES})
+target_link_libraries(simple_planer ${catkin_LIBRARIES})
 target_link_libraries(gps_planer ${catkin_LIBRARIES})
 target_link_libraries(safety ${catkin_LIBRARIES})
