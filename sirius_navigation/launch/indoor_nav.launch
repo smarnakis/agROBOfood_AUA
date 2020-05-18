@@ -15,18 +15,20 @@
 	    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
 	  </include> 
 
+	  <include file="$(find sirius)/launch/safety.launch"/>
+	  
 	  <group if="$(arg no_static_map)">
-		  <include file="$(find sirius)/launch/navigation/gmapping.launch" />
-		  <include file="$(find sirius)/launch/navigation/move_base.launch">
+		  <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
 		  	<arg name="no_static_map" value="$(arg no_static_map)"/>
 		  </include>
 		</group>
 
 	  <group unless="$(arg no_static_map)">
-	  	<arg name="map_file" default="$(find sirius)/maps/office.yaml"/>
+	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office.yaml"/>
 		  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
-		  <include file="$(find sirius)/launch/navigation/amcl.launch"/>
-		  <include file="$(find sirius)/launch/navigation/move_base.launch">
+		  <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
+		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
 		  	<arg name="no_static_map" value="$(arg no_static_map)"/>
 		  </include>
 		</group>
@@ -37,17 +39,17 @@
 	<group unless="$(arg sim)">
 
 	  <group if="$(arg no_static_map)">
-		  <include file="$(find sirius)/launch/navigation/gmapping.launch" />
-		  <include file="$(find sirius)/launch/navigation/move_base.launch">
+		  <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
 		  	<arg name="no_static_map" value="$(arg no_static_map)"/>
 		  </include>
 		</group>
 
 	  <group unless="$(arg no_static_map)">
-	  	<arg name="map_file" default="$(find sirius)/maps/office.yaml"/>
+	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office.yaml"/>
 		  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
-		  <include file="$(find sirius)/launch/navigation/amcl.launch"/>
-		  <include file="$(find sirius)/launch/navigation/move_base.launch">
+		  <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
+		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
 		  	<arg name="no_static_map" value="$(arg no_static_map)"/>
 		  </include>
 		</group>

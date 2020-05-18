@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(sirius)
+cmake_minimum_required(VERSION 3.0.2)
+project(sirius_navigation)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -34,7 +34,10 @@ include_directories(
 )
 
 
-add_executable(safety src/safety.cpp)
+add_executable(simple_planer src/simple_planer.cpp src/functions.cpp)
+add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
 
 
-target_link_libraries(safety ${catkin_LIBRARIES})
+
+target_link_libraries(simple_planer ${catkin_LIBRARIES})
+target_link_libraries(gps_planer ${catkin_LIBRARIES})

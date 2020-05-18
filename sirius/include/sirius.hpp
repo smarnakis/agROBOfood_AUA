@@ -41,39 +41,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-/* Important definitions */
-#define ODOM_TO_WORLD_x -6
-#define ODOM_TO_WORLD_y +3
-#define ODOM_TO_WORLD_theta 3.14159265
-#define PI 3.14159265
-
-/* Global Variables */
-
-extern std::vector <std::pair<double, double>> waypointVect;
-extern std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
-
-
-extern geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
-extern int count, waypointCount, wait_count;
-extern double numWaypoints;
-extern double latiGoal, longiGoal, latiNext, longiNext;
-extern std::string utm_zone;
-extern std::string path_local, path_abs;
-
-
-/* funtions headers*/
-int countWaypointsInFile(std::string path_local);
-//latitude-longtitude ===> UTM coordinates
-geometry_msgs::PointStamped latLongtoUTM(double lati_input, double longi_input);
-//UTM ===> to map coordinates (in the odom frame)
-geometry_msgs::PointStamped UTMtoMapPoint(geometry_msgs::PointStamped UTM_input);
-//Create moveBaseGoal msg for the move base action client.
-move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, geometry_msgs::PointStamped map_next, bool last_point);
-//Simple move_Base goal
-move_base_msgs::MoveBaseGoal simpleGoal(tf::StampedTransform map_pose);
-
-/* CallBack function headers */
-
 /* Classes */
 class safety
 {

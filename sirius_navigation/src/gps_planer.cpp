@@ -1,4 +1,4 @@
-#include "sirius.hpp"
+#include "sirius_navigation.hpp"
 
 typedef actionlib::SimpleActionClient <move_base_msgs::MoveBaseAction>
 MoveBaseClient; //create a type definition for a client called MoveBaseClient

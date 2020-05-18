@@ -1,4 +1,4 @@
-#include <sirius.hpp>
+#include <sirius_navigation.hpp>
 
 std::vector <std::pair<double, double>> waypointVect;
 std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
