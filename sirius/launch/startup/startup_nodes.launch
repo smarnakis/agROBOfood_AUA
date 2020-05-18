@@ -1,8 +1,17 @@
 <?xml version="1.0"?>
 
 <launch>
+
+	<arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)" />
 	<arg name="safety_enabled" default="$(optenv SAFETY_ENABLED false)" />
+
+	<group if="laser_enabled">
+		<include file="$(find sirius)/launch/include/laser.launch"/>
+	</group>
+
   <group if="$(arg safety_enabled)">
     <include file="$(find sirius)/launch/safety.launch"/>
   </group>
+
+
 </launch>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Initiate laser driver -->
+  <node pkg="lms1xx" name="lms1xx" type="LMS1xx_node">
+    <param name="host" value="$(env HUSKY_LMS1XX_IP)" />
+    <param name="frame_id" value="base_laser" />
+    	<remap from="/scan" to="/scan_unfiltered"/>
+  </node>
+  
+  <!-- Initiate laser filter node -->
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find sirius)/config/laser_filter.yaml" />
+      <remap from="/scan" to="/scan_unfiltered" />
+      <remap from="/scan_filtered" to="/scan" />
+  </node>
+
+</launch>
