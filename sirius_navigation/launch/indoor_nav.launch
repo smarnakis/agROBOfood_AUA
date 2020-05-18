@@ -53,7 +53,7 @@
 		</group>
 
 	  <group unless="$(arg no_static_map)">
-	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office.yaml"/>
+	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office_corridor.yaml"/>
 		  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
 		  <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
 		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
