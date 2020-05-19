@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+	<rosparam command="load" file="$(find sirius_navigation)/config/collector.yaml"/>
+	<node pkg="sirius_navigation" type="collect_waypoints" name="collect_waypoints" output="screen"/>
+</launch>

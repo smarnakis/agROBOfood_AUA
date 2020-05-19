@@ -5,11 +5,15 @@
 #include <ros/ros.h>
 #include <ros/package.h>
 #include <ros/console.h>
+#include <ros/duration.h>
+#include <ros/time.h>
+#include <ros/package.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 /* ROS MSGs Headers */
 #include <sensor_msgs/LaserScan.h>
+#include <sensor_msgs/Joy.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Bool.h>
