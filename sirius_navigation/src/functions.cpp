@@ -10,9 +10,9 @@ double latiGoal, longiGoal, latiNext, longiNext;
 std::string utm_zone;
 std::string path_local, path_abs;
 
-/*int countWaypointsInFile(std::string path_local)
+int countWaypointsInFile(std::string path_local)
 {
-    path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
+    path_abs = ros::package::getPath("sirius_navigation") + path_local;
     std::ifstream fileCount(path_abs.c_str());
     if(fileCount.is_open())
     {
@@ -24,7 +24,7 @@ std::string path_local, path_abs;
         }
         count = count - 1;
         numWaypoints = count / 2;
-        ROS_INFO("%.0f GPS waypoints were read", numWaypoints);
+        ROS_INFO("%.0f map coordinate waypoints were read", numWaypoints);
         fileCount.close();
     }
     else
@@ -39,7 +39,7 @@ std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
 {
     double lati = 0, longi = 0;
 
-    path_abs = ros::package::getPath("outdoor_waypoint_nav") + path_local;
+    path_abs = ros::package::getPath("sirius_navigation") + path_local;
     std::ifstream fileRead(path_abs.c_str());
     for(int i = 0; i < numWaypoints; i++)
     {
@@ -50,14 +50,14 @@ std::vector <std::pair<double, double>> getWaypoints(std::string path_local)
     fileRead.close();
 
     //Outputting vector
-    ROS_INFO("The following GPS Waypoints have been set:");
+    ROS_INFO("The following Map coordinate Waypoints have been set:");
     for(std::vector < std::pair < double, double >> ::iterator iterDisp = waypointVect.begin(); iterDisp != waypointVect.end();
     iterDisp++)
     {
         ROS_INFO("%.9g %.9g", iterDisp->first, iterDisp->second);
     }
     return waypointVect;
-}*/
+}
 
 geometry_msgs::PointStamped latLongtoUTM(double lati_input, double longi_input)
 {

@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 		*/
 
     //GIVE 2 WAY POINTS FOR GPS SIMULATION
-		double lat1 = 49.9000270471, long1 = 8.89995766057, lat2 = 49.9000000021, long2 = 8.90000002223;
+	double lat1 = 49.9000270471, long1 = 8.89995766057, lat2 = 49.9000000021, long2 = 8.90000002223;
     waypointVect.push_back(std::make_pair(lat1, long1));
 		waypointVect.push_back(std::make_pair(lat2, long2));
 

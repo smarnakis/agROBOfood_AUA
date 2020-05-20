@@ -36,11 +36,12 @@ include_directories(
 
 
 add_executable(simple_planer src/simple_planer.cpp src/functions.cpp)
+add_executable(map_coords_planner src/map_coords_planner.cpp src/functions.cpp)
 add_executable(collect_waypoints src/collect_waypoints.cpp)
 add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
 
 
-
 target_link_libraries(simple_planer ${catkin_LIBRARIES})
+target_link_libraries(map_coords_planner ${catkin_LIBRARIES})
 target_link_libraries(collect_waypoints ${catkin_LIBRARIES})
 target_link_libraries(gps_planer ${catkin_LIBRARIES})

@@ -72,6 +72,11 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
 //Simple move_Base goal
 move_base_msgs::MoveBaseGoal simpleGoal(tf::StampedTransform map_pose);
 
+// Way-point file management
+int countWaypointsInFile(std::string path_local);
+std::vector <std::pair<double, double>> getWaypoints(std::string path_local);
+
+
 /* CallBack function headers */
 
 
