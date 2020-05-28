@@ -14,6 +14,7 @@
 /* ROS MSGs Headers */
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/Joy.h>
+#include <sensor_msgs/NavSatFix.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Bool.h>

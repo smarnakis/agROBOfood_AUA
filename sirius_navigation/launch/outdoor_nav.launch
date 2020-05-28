@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="sim" default="false"/>
+  <arg name="no_static_map" default="true"/>
+
+  <!-- Spawn sirius in empty world -->
+  <!-- Simulation -->
+  <group if="$(arg sim)">
+    <arg name="laser_enabled" default="true"/>
+
+    <!-- Open empty outdoor world -->
+    <include file="$(find sirius)/launch/simulation/sirius_empty_world.launch">
+      <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    </include> 
+
+    <!-- Initiate the laser filter -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find sirius)/config/laser_filter.yaml" />
+      <remap from="/scan" to="/scan_unfiltered" />
+      <remap from="/scan_filtered" to="/scan" />
+    </node>
+
+    <!-- Initiate the gps map localisation nodes -->
+    <include file="$(find sirius)/launch/localisation/sirius_map_localisation.launch"/>
+    
+    <!-- SLAMing case -->
+    <group if="$(arg no_static_map)">
+      <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+        <arg name="no_static_map" value="$(arg no_static_map)"/>
+      </include>
+    </group>
+
+    <!-- Static map case -->
+    <group unless="$(arg no_static_map)">
+      <!-- Load the requested map -->
+      <arg name="map_file" default="$(find sirius_navigation)/maps/empty_map.yaml"/>
+      <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+      
+      <!-- <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/> -->
+      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+        <arg name="no_static_map" value="$(arg no_static_map)"/>
+      </include>
+    </group>
+    
+  </group>
+
+  <!-- Real platform -->
+  <group unless="$(arg sim)">
+
+    <group if="$(arg no_static_map)">
+      <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+        <arg name="no_static_map" value="$(arg no_static_map)"/>
+      </include>
+    </group>
+
+    <group unless="$(arg no_static_map)">
+      <arg name="map_file" default="$(find sirius_navigation)/maps/office_corridor.yaml"/>
+      <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+      <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
+      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+        <arg name="no_static_map" value="$(arg no_static_map)"/>
+      </include>
+    </group>
+
+  </group>
+
+</launch>
