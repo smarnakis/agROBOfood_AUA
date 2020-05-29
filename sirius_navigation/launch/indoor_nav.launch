@@ -9,12 +9,14 @@
   <group if="$(arg sim)">
 	  <arg name="laser_enabled" default="true"/>
 
-	  <arg name="world_name" default="$(find robot_simulation)/worlds/office.world"/>
-	  <include file="$(find sirius)/launch/simulation/sirius_empty_world.launch">
-	    <arg name="world_name" value="$(arg world_name)"/>
-	    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
-      <remap from="/scan" to="/scan_unfiltered" />
-	  </include> 
+	  <arg name="world_name" default="$(find robot_simulation)/worlds/office_sim.world"/>
+    <include file="$(find robot_simulation)/launch/spawn_sirius.launch">
+    	<arg name="x" value="-3.0"/>
+    	<arg name="y" value="0.5"/>
+    	<arg name="world_name" value="$(arg world_name)"/>
+      <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+
+    </include> 
 
 	  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
     <rosparam command="load" file="$(find sirius)/config/laser_filter.yaml" />
@@ -22,7 +24,7 @@
       <remap from="/scan_filtered" to="/scan" />
   	</node>
 
-	  <include file="$(find sirius)/launch/safety.launch"/>
+	  <!-- <include file="$(find sirius)/launch/safety.launch"/> -->
 	  
 	  <group if="$(arg no_static_map)">
 		  <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
@@ -32,7 +34,7 @@
 		</group>
 
 	  <group unless="$(arg no_static_map)">
-	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office.yaml"/>
+	  	<arg name="map_file" default="$(find sirius_navigation)/maps/office_sim.yaml"/>
 		  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
 		  <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
 		  <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">

@@ -10,7 +10,7 @@
     <arg name="laser_enabled" default="true"/>
 
     <!-- Open empty outdoor world -->
-    <include file="$(find sirius)/launch/simulation/sirius_empty_world.launch">
+    <include file="$(find robot_simulation)/launch/spawn_sirius.launch">
       <arg name="laser_enabled" value="$(arg laser_enabled)"/>
     </include> 
 

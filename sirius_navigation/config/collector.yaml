@@ -2,5 +2,5 @@ collector:
   collect_button_num: 1
   end_button_num1: 4
   end_button_num2: 5
-  coordinates_file: "/waypoint_files/map_waypoints.txt"
+  coordinates_file: "/waypoint_files/sim_map_waypoints.txt"
   gps_coordinates_file: "/waypoint_files/gps_waypoints.txt"

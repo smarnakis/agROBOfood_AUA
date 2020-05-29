@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<arg name="world_name" default="worlds/empty.world"/>
+
+	<arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+
+  <arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)"/>
+  <arg name="kinect_enabled" default="$(optenv HUSKY_UR5_ENABLED false)"/>
+
+	<include file="$(find robot_simulation)/launch/world.launch">
+	  <arg name="world_name" value="$(arg world_name)"/>
+	</include>
+  
+	<include file="$(find husky_gazebo)/launch/spawn_husky.launch">
+    <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+    <arg name="kinect_enabled" value="$(arg kinect_enabled)"/>
+	 	<arg name="x" value="$(arg x)"/>
+	  <arg name="y" value="$(arg y)"/>
+	  <arg name="z" value="$(arg z)"/>
+	  <arg name="yaw" value="$(arg yaw)"/>
+	</include>
+
+</launch>
