@@ -3,10 +3,15 @@
 <launch>
 
 	<arg name="laser_enabled" default="$(optenv HUSKY_LMS1XX_ENABLED false)" />
+	<arg name="navsat_enabled" default="$(optenv HUSKY_NAVSAT_ENABLED false)" />
 	<arg name="safety_enabled" default="$(optenv SAFETY_ENABLED false)" />
 
 	<group if="$(arg laser_enabled)">
 		<include file="$(find sirius)/launch/include/laser.launch"/>
+	</group>
+
+	<group if="$(arg navsat_enabled)">
+		<include file="$(find sirius)/launch/include/navsat.launch"/>
 	</group>
 
   <group if="$(arg safety_enabled)">

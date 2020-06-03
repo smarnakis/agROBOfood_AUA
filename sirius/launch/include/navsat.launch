@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <group ns="gps">
+    <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" > 
+      <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/clearpath/gps)" />
+      <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 9600)" />
+      
+      <param name="frame_id" value="GPS_link" />
+ 
+   </node>
+
+    <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver">
+      <remap from="/gps/fix" to="/navsat/fix" />
+    </node>
+
+  </group>
+
+
+</launch>
