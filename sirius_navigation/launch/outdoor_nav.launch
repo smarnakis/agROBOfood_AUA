@@ -49,6 +49,9 @@
   <!-- Real platform -->
   <group unless="$(arg sim)">
 
+    <!-- Initiate the gps map localisation nodes -->
+    <include file="$(find sirius)/launch/localisation/sirius_map_localisation.launch"/>
+
     <group if="$(arg no_static_map)">
       <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
       <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
