@@ -7,12 +7,12 @@
       by spawn husky launch file-->
 
   <!-- Start EKF for localization for map frame-->
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map">
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_map" clear_params="true">
     <remap from="odometry/filtered" to="odometry/filtered_map"/>
   </node>
 
   <!-- Start navsat node for gps==>UTP coords-->
-  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" respawn="true">
+  <node pkg="robot_localization" type="navsat_transform_node" name="navsat_transform" respawn="true" clear_params="true">
     <remap from="/imu/data" to="/imu/data" />
     <remap from="/gps/fix" to="/navsat/fix" />
     <remap from="/odometry/filtered" to="/odometry/filtered_map" />

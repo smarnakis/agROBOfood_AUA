@@ -3,11 +3,12 @@
 <launch>
   <arg name="sim" default="false"/>
   <arg name="no_static_map" default="true"/>
+  <arg name="slam" default="false"/>
+  <arg name="laser_enabled" default="true"/>
 
   <!-- Spawn sirius in empty world -->
   <!-- Simulation -->
   <group if="$(arg sim)">
-    <arg name="laser_enabled" default="true"/>
 
     <!-- Open empty outdoor world -->
     <include file="$(find robot_simulation)/launch/spawn_sirius.launch">
@@ -23,27 +24,29 @@
 
     <!-- Initiate the gps map localisation nodes -->
     <include file="$(find sirius)/launch/localisation/sirius_map_localisation.launch"/>
-    
-    <!-- SLAMing case -->
-    <group if="$(arg no_static_map)">
-      <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
-      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
-        <arg name="no_static_map" value="$(arg no_static_map)"/>
-      </include>
-    </group>
+  
 
     <!-- Static map case -->
     <group unless="$(arg no_static_map)">
+      
+      <!-- SLAMing case -->
+      <group if="$(arg slam)">
+        <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+      </group>
+
+      <!-- Loaded map -->
+      <group unless="$(arg slam)">
       <!-- Load the requested map -->
       <arg name="map_file" default="$(find sirius_navigation)/maps/empty_map.yaml"/>
       <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
-      
-      <!-- <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/> -->
-      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
-        <arg name="no_static_map" value="$(arg no_static_map)"/>
-      </include>
-    </group>
+      <!-- Begin AMCL -->
+      <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
+      </group>
     
+    </group>
+    <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+      <arg name="no_static_map" value="$(arg no_static_map)"/>
+    </include>
   </group>
 
   <!-- Real platform -->
@@ -52,21 +55,27 @@
     <!-- Initiate the gps map localisation nodes -->
     <include file="$(find sirius)/launch/localisation/sirius_map_localisation.launch"/>
 
-    <group if="$(arg no_static_map)">
-      <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
-      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
-        <arg name="no_static_map" value="$(arg no_static_map)"/>
-      </include>
-    </group>
-
+    <!-- Static map case -->
     <group unless="$(arg no_static_map)">
-      <arg name="map_file" default="$(find sirius_navigation)/maps/office_corridor.yaml"/>
+      
+      <!-- SLAMing case -->
+      <group if="$(arg slam)">
+        <include file="$(find sirius_navigation)/launch/navigation/gmapping.launch" />
+      </group>
+
+      <!-- Loaded map -->
+      <group unless="$(arg slam)">
+      <!-- Load the requested map -->
+      <arg name="map_file" default="$(find sirius_navigation)/maps/empty_map.yaml"/>
       <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+      <!-- Begin AMCL -->
       <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>
-      <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
-        <arg name="no_static_map" value="$(arg no_static_map)"/>
-      </include>
+      </group>
+    
     </group>
+    <include file="$(find sirius_navigation)/launch/navigation/move_base.launch">
+      <arg name="no_static_map" value="$(arg no_static_map)"/>
+    </include>
 
   </group>
 
