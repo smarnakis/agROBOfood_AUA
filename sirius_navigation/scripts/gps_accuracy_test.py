@@ -7,7 +7,7 @@ from sensor_msgs.msg import NavSatFix
 from nav_msgs.msg import Odometry
 from visualization_msgs.msg import Marker
 from visualization_msgs.msg import MarkerArray
-import matplotlib.pyplot as plt
+
 import math
 import numpy as np
 import rospkg

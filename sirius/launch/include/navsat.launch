@@ -3,8 +3,8 @@
 
   <group ns="gps">
     <node pkg="nmea_comms" type="serial_node" name="nmea_serial_node" > 
-      <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/clearpath/gps)" />
-      <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 9600)" />
+      <param name="port" value="$(optenv HUSKY_NAVSAT_PORT /dev/prolific_1)" />
+      <param name="baud" value="$(optenv HUSKY_NAVSAT_BAUD 115200)" />
       
       <param name="frame_id" value="GPS_link" />
  
