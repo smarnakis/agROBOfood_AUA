@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+<!--   <arg name="rosbag_name" value="/home/smarn/ros/rosbags/first-rec-26-6-2020/stationary.bag"/>
+ -->  
+ <arg name="rosbag_name" value="/home/smarn/ros/rosbags/first-rec-26-6-2020/moving_slam.bag"/>
+  <param name="use_sim_time" value="true" />
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--clock $(arg rosbag_name)"/>
+<!--   	<remap from="/navsat/fix" to="/navsat/fix_raw"/>
+ 
+  </node> --> 
+<!--   <include file="$(find sirius_navigation)/launch/outdoor_nav.launch">
+    <arg name="sim" value="false"/>
+    <arg name="no_static_map" value="true"/>
+    <arg name="slam" value="false"/>
+  </include> -->
+<!--   <node pkg="sirius" type="gps_filter" name="gps_filter" output="screen"/>
+ -->  <node pkg="sirius_navigation" type="gps_accuracy_test.py" name="gps_accuracy_test" output="screen" args="moving_slam.txt"/>
+</launch>

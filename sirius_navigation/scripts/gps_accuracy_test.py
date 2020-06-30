@@ -14,10 +14,11 @@ import rospkg
 import os
 import sys
 
-lat,lon,alt = [],[],[]
-latf,lonf,altf = [],[],[]
+lat,lon,alt,rtk = [],[],[],[]
+latf,lonf,altf,rtkf = [],[],[],[]
+latf_r,lonf_r,altf_r,rtkf_r = [],[],[],[]
 x,y = [],[]
-time_fix,time_gps,time_map = [],[],[]
+time_fix,time_fix_r,time_gps,time_map = [],[],[],[]
 
 def gather_map_keypoints(odom_msg):
 	time_map.append(odom_msg.header.stamp.to_sec())
@@ -31,12 +32,30 @@ def gather_fix_keypoints(fix_msg):
 	lati = fix_msg.latitude
 	longi = fix_msg.longitude
 	alti	=	fix_msg.altitude
+	rtki = fix_msg.status.status
 	now = fix_msg.header.stamp.to_sec()
 	if not (math.isnan(lati)):
 		time_fix.append(now)
 		latf.append(lati)
 		lonf.append(longi)
 		altf.append(alti)
+		rtkf.append(rtki)
+
+def gather_fix_raw_keypoints(fix_msg):
+	# global last_call
+	# time_call = rospy.get_time()
+	# print("time_call:",time_call)
+	lati = fix_msg.latitude
+	longi = fix_msg.longitude
+	alti	=	fix_msg.altitude
+	rtki = fix_msg.status.status
+	now = fix_msg.header.stamp.to_sec()
+	if not (math.isnan(lati)):
+		time_fix_r.append(now)
+		latf_r.append(lati)
+		lonf_r.append(longi)
+		altf_r.append(alti)
+		rtkf_r.append(rtki)
 
 def gather_gps_keypoints(fix_msg):
 	# global last_call
@@ -45,12 +64,14 @@ def gather_gps_keypoints(fix_msg):
 	lati = fix_msg.latitude
 	longi = fix_msg.longitude
 	alti	=	fix_msg.altitude
+	rtki = fix_msg.status.status
 	now = fix_msg.header.stamp.to_sec()
 	if not (math.isnan(lati)):
 		time_gps.append(now)
 		lat.append(lati)
 		lon.append(longi)
 		alt.append(alti)
+		rtk.append(rtki)
 
 def main():
 	rospy.init_node('GPS_vis', anonymous=True)
@@ -69,9 +90,10 @@ def main():
 		if len(sys.argv) > 1:
 			FILE_NAME = sys.argv[1]
 		else:
-			FILE_NAME = "navsat_map.txt"
+			FILE_NAME = "rtk_evaluation.txt"
 		ABS_PATH = os.path.join(PKG_DIR,LOCAL_DIR,FILE_NAME)
 		print(ABS_PATH)
+		print(sys.argv)
 		f = open(ABS_PATH,"wt")
 		f.write("Raw fix keypoints")
 		f.write("\n")
@@ -83,6 +105,8 @@ def main():
 		f.write("\n")
 		f.write(str(altf))
 		f.write("\n")
+		f.write(str(rtkf))
+		f.write("\n")
 		f.write("Filtered gps keypoints")
 		f.write("\n")
 		f.write(str(time_gps))
@@ -92,6 +116,8 @@ def main():
 		f.write(str(lon))
 		f.write("\n")
 		f.write(str(alt))
+		f.write("\n")
+		f.write(str(rtk))
 		f.write("\n")
 		f.write("Map keypoints")
 		f.write("\n")

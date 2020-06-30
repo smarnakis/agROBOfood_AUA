@@ -1,54 +1,70 @@
 #!/usr/bin/env python
 
-import rospy
-from std_msgs.msg import String,Bool
-from sensor_msgs.msg import LaserScan
-from sensor_msgs.msg import NavSatFix
-from visualization_msgs.msg import Marker
-from visualization_msgs.msg import MarkerArray
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-import rospkg
 import os
 import ast
 
 def main():
-	rospack = rospkg.RosPack()
-	PKG_DIR = rospack.get_path('sirius_navigation')
-	LOCAL_DIR = "txt_files"
-	FILE_NAME = "navsat_fix_sim.txt"
-	FILE_NAME1 = "navsat_fix.txt"	
-	ABS_PATH = os.path.join(PKG_DIR,LOCAL_DIR,FILE_NAME)
-	ABS_PATH1 = os.path.join(PKG_DIR,LOCAL_DIR,FILE_NAME1)
+
+	DIR = "/home/smarn/ros/aua_ws/src/agROBOfood_AUA/sirius_navigation/txt_files"
+	FILE_NAME = "moving_slam.txt"
+	ABS_PATH = os.path.join(DIR,FILE_NAME)
+	# ABS_PATH1 = os.path.join(PKG_DIR,LOCAL_DIR,FILE_NAME1)
 	print(ABS_PATH)
 	f = open(ABS_PATH,"rt")
 	lines = f.readlines()
-	lat = ast.literal_eval(lines[3])
-	lon = ast.literal_eval(lines[4])
-	alt = ast.literal_eval(lines[2])
+	time_raw_fix = ast.literal_eval(lines[1])
+	lat_fix = ast.literal_eval(lines[2])
+	lon_fix = ast.literal_eval(lines[3])
+	time_filt_fix = ast.literal_eval(lines[7])
+	lat_filt = ast.literal_eval(lines[8])
+	lon_filt = ast.literal_eval(lines[9])
+	time_map = ast.literal_eval(lines[13])
+	x_map = ast.literal_eval(lines[14])
+	y_map = ast.literal_eval(lines[15])
+	# alt = ast.literal_eval(lines[5])
 	f.close()
-	# f = open(ABS_PATH1,"rt")
-	# lines1 = f.readlines()
-	# lat1 = ast.literal_eval(lines1[0])
-	# lon1 = ast.literal_eval(lines1[1])
-	# alt1 = ast.literal_eval(lines1[2])
-	# f.close()
-	lat_mean = np.mean(lat)
-	lon_mean = np.mean(lon)
-	# lat_mean1 = np.mean(lat1)
-	# lon_mean1 = np.mean(lon1)
-	# lat = lat - lat_mean
-	# lon = lon - lon_mean
-	# lat1 = lat1 - lat_mean1
-	# lon1 = lon1 - lon_mean1
-	print(lat_mean,lon_mean)
-	fig = plt.figure()
-	# plt.xlim([lat_mean-0.00001,lat_mean+0.00001])
-	# plt.ylim([lon_mean-0.00001,lon_mean+0.00001])
-	plt.plot(lat,lon)
-	# plt.plot(lat1,lon1)
+
+	time_map = [i/60 for i in time_map]
+	time_filt_fix = [i/60 for i in time_filt_fix]
+	time_raw_fix = [i/60 for i in time_raw_fix]
+
+	fig,axs1 = plt.subplots(1,2)
+	axs1[0].grid('on')
+	axs1[1].grid('on')
+
+	axs1[0].set_xlabel("X (m)")
+	axs1[0].set_ylabel("Y (m)")
+	axs1[1].set_xlabel("Latitude")
+	axs1[1].set_ylabel("Longitude")
+	axs1[0].plot(x_map,y_map)
+	axs1[1].plot(lon_fix,lat_fix)
+	# plt.show()
+
+	fig,axs = plt.subplots(2,2)
+	axs[0,0].grid('on')
+	axs[0,1].grid('on')
+	axs[1,0].grid('on')
+	axs[1,1].grid('on')
+
+	axs[0,0].set_ylabel("X (m)")
+	axs[0,1].set_ylabel("Y (m)")
+	axs[1,0].set_ylabel("Latitude")
+	axs[1,1].set_ylabel("Longitude")
+	axs[0,0].set_xlabel("time (sec)")
+	axs[0,1].set_xlabel("time (sec)")
+	axs[1,0].set_xlabel("time (sec)")
+	axs[1,1].set_xlabel("time (sec)")
+	axs[0,0].plot(time_map,x_map)
+	axs[0,1].plot(time_map,y_map)
+	axs[1,1].plot(time_raw_fix,lat_fix)
+	axs[1,1].plot(time_filt_fix,lat_filt)
+	axs[1,0].plot(time_raw_fix,lon_fix)
+	axs[1,0].plot(time_filt_fix,lon_filt)
 	plt.show()
+
 
 
 if __name__ == '__main__':

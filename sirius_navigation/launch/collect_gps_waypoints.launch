@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 
 <launch>
-	<!-- Initiate the gps map localisation nodes -->
-	<include file="$(find sirius)/launch/localisation/sirius_map_localisation.launch"/>
-
 	<!-- Load collector params -->
 	<rosparam command="load" file="$(find sirius_navigation)/config/collector.yaml"/>
 	
