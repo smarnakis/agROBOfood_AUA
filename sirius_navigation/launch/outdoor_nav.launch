@@ -17,7 +17,7 @@
     <!-- Loaded map -->
     <group unless="$(arg slam)">
     <!-- Load the requested map -->
-    <arg name="map_file" default="$(find sirius_navigation)/maps/empty_map.yaml"/>
+    <arg name="map_file" default="$(find sirius_navigation)/maps/aua_field2.yaml"/>
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
     <!-- Begin AMCL -->
     <include file="$(find sirius_navigation)/launch/navigation/amcl.launch"/>

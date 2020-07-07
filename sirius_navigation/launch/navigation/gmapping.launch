@@ -28,7 +28,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   <arg name="scan_topic" default="scan" />
   <arg name="map_topic" default="map" />
 
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+  <!-- <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
     <rosparam>
       odom_frame: odom_gmapping
       base_frame: base_link
@@ -51,6 +51,49 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
       ymin: -100.0
       xmax: 100.0
       ymax: 100.0
+      delta: 0.05
+
+      # All default
+      sigma: 0.05
+      kernelSize: 1
+      lstep: 0.05
+      astep: 0.05
+      iterations: 5
+      lsigma: 0.075
+      ogain: 3.0
+      lskip: 0
+      llsamplerange: 0.01
+      llsamplestep: 0.01
+      lasamplerange: 0.005
+      lasamplestep: 0.005
+
+    </rosparam>
+    <remap from="map" to="$(arg map_topic)"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+  </node> -->
+<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+    <rosparam>
+      odom_frame: odom_gmapping
+      base_frame: base_link
+      map_frame: map
+
+      map_update_interval: 0.5 # Publish new map
+
+      maxUrange: 19.5 # Should be just less than sensor range
+      maxRange: 20.1 # Should be just greater than sensor range
+      particles: 100 # Increased from 80
+
+      # Update frequencies
+      linearUpdate: 0.2
+      angularUpdate: 0.1
+      temporalUpdate: 2.0 #process a scan every 1 second
+      resampleThreshold: 0.5
+
+      # Initial Map Size
+      xmin: -40.0
+      ymin: -40.0
+      xmax: 40.0
+      ymax: 40.0
       delta: 0.05
 
       # All default

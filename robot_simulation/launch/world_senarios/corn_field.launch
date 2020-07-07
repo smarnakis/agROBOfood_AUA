@@ -2,7 +2,7 @@
 
 <launch>
 
-  <arg name="world_name" default="$(find robot_simulation)/worlds/corn_field_simple.world"/>
+  <arg name="world_name" default="$(find robot_simulation)/worlds/aua_field1.world"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)"/>

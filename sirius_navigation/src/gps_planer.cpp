@@ -49,66 +49,67 @@ int main(int argc, char** argv)
 		waypointVect.push_back(std::make_pair(lat2, long2));*/
 
     // Iterate through vector of waypoints for setting goals
-    for(iter = waypointVect.begin(); iter < waypointVect.end(); iter++)
-    {
-        //Setting goal:
-        latiGoal = iter->first;
-        longiGoal = iter->second;
-        bool final_point = false;
-
-        //set next goal point if not at last waypoint
-        if(iter < (waypointVect.end() - 1))
+    while(ros::ok()){
+        for(iter = waypointVect.begin(); iter < waypointVect.end(); iter++)
         {
-            iter++;
-            latiNext = iter->first;
-            longiNext = iter->second;
-            iter--;
-        }
-        else //set to current
-        {
-            latiNext = iter->first;
-            longiNext = iter->second;
-            final_point = true;
-        }
+            //Setting goal:
+            latiGoal = iter->first;
+            longiGoal = iter->second;
+            bool final_point = false;
 
-        ROS_INFO("Received Latitude goal:%.8f", latiGoal);
-        ROS_INFO("Received longitude goal:%.8f", longiGoal);
+            //set next goal point if not at last waypoint
+            if(iter < (waypointVect.end() - 1))
+            {
+                iter++;
+                latiNext = iter->first;
+                longiNext = iter->second;
+                iter--;
+            }
+            else //set to current
+            {
+                latiNext = iter->first;
+                longiNext = iter->second;
+                final_point = true;
+            }
 
-        //Convert lat/long to utm:
-        UTM_point = latLongtoUTM(latiGoal, longiGoal);
-        UTM_next = latLongtoUTM(latiNext, longiNext);
+            ROS_INFO("Received Latitude goal:%.8f", latiGoal);
+            ROS_INFO("Received longitude goal:%.8f", longiGoal);
 
-        //Transform UTM to map point in odom frame
-        map_point = UTMtoMapPoint(UTM_point);
-        map_next = UTMtoMapPoint(UTM_next);
+            //Convert lat/long to utm:
+            UTM_point = latLongtoUTM(latiGoal, longiGoal);
+            UTM_next = latLongtoUTM(latiNext, longiNext);
 
-        //Build goal to send to move_base
-        move_base_msgs::MoveBaseGoal goal = buildGoal(map_point, map_next, final_point); //initiate a move_base_msg called goal
+            //Transform UTM to map point in odom frame
+            map_point = UTMtoMapPoint(UTM_point);
+            map_next = UTMtoMapPoint(UTM_next);
 
-        // Send Goal
-        ROS_INFO("Sending goal");
-        ac.sendGoal(goal); //push goal to move_base node
+            //Build goal to send to move_base
+            move_base_msgs::MoveBaseGoal goal = buildGoal(map_point, map_next, final_point); //initiate a move_base_msg called goal
 
-        //Wait for result
-        ac.waitForResult(); //waiting to see if move_base was able to reach goal
+            // Send Goal
+            ROS_INFO("Sending goal");
+            ac.sendGoal(goal); //push goal to move_base node
 
-        if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-            ROS_INFO("Husky has reached its goal!");
-            //switch to next waypoint and repeat
-        }
-        else
-        {
-            ROS_ERROR("Husky was unable to reach its goal. GPS Waypoint unreachable.");
-            ROS_INFO("Exiting node...");
-            // Notify joy_launch_control that waypoint following is complete
-            std_msgs::Bool node_ended;
-            node_ended.data = true;
-            pubWaypointNodeEnded.publish(node_ended);
-            ros::shutdown();
-        }
-    } // End for loop iterating through waypoint vector
+            //Wait for result
+            ac.waitForResult(ros::Duration()); //waiting to see if move_base was able to reach goal
 
+            if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+            {
+                ROS_INFO("Husky has reached its goal!");
+                //switch to next waypoint and repeat
+            }
+            else
+            {
+                ROS_ERROR("Husky was unable to reach its goal. GPS Waypoint unreachable.");
+                ROS_INFO("Exiting node...");
+                // Notify joy_launch_control that waypoint following is complete
+                std_msgs::Bool node_ended;
+                node_ended.data = true;
+                pubWaypointNodeEnded.publish(node_ended);
+                // ros::shutdown();
+            }
+        } // End for loop iterating through waypoint vector
+    }
     ROS_INFO("Husky has reached all of its goals!!!\n");
     ROS_INFO("Ending node...");
 
