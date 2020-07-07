@@ -1,10 +1,15 @@
 scan_filter_chain:
-- name: angle
-  type: LaserScanAngularBoundsFilter
+- name: AngleOne
+  type: LaserScanAngularBoundsFilterInPlace
   params:
-    lower_angle: -0.13084
-    upper_angle: 1.70008
-- name: ScanRange
+    lower_angle: 1.97
+    upper_angle: 3.14
+- name: AngleTwo
+  type: LaserScanAngularBoundsFilterInPlace
+  params:
+    lower_angle: -3.14
+    upper_angle: -1.97
+- name: Box
   type: LaserScanBoxFilter
   params:
     box_frame: base_link
