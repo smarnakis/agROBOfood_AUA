@@ -6,7 +6,7 @@ std::vector<std::pair < double, double> > ::iterator iter; //init. iterator
 geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
 int count = 0, waypointCount = 0, wait_count = 0;
 double numWaypoints = 0;
-double latiGoal, longiGoal, latiNext, longiNext;
+double latiGoal, longiGoal, latiNext, longiNext,latiCurr,longiCurr;
 std::string utm_zone;
 std::string path_local, path_abs;
 
@@ -141,6 +141,69 @@ move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, ge
         goal.target_pose.pose.orientation.w = 1.0;
     }
 
+    return goal;
+}
+
+
+move_base_msgs::MoveBaseGoal buildGoal_2(geometry_msgs::PointStamped map_point_curr, geometry_msgs::PointStamped map_goal)
+{
+    move_base_msgs::MoveBaseGoal goal;
+
+    //Specify what frame we want the goal to be published in
+    goal.target_pose.header.frame_id = "odom";
+    goal.target_pose.header.stamp = ros::Time::now();
+
+    // Specify x and y goal
+    goal.target_pose.pose.position.x = map_goal.point.x; //specify x goal
+    goal.target_pose.pose.position.y = map_goal.point.y; //specify y goal
+
+    // Specify heading goal using current goal and next goal (point robot towards its next goal once it has achieved its current goal)
+    tf::Matrix3x3 rot_euler;
+    tf::Quaternion rot_quat;
+
+    // Calculate quaternion
+    float x_curr = map_point_curr.point.x, y_curr = map_point_curr.point.y; // set current coords.
+    float x_next = map_goal.point.x, y_next = map_goal.point.y; // set coords. of next waypoint
+    float delta_x = x_next - x_curr, delta_y = y_next - y_curr;   // change in coords.
+    float yaw_curr = 0, pitch_curr = 0, roll_curr = 0;
+    yaw_curr = atan2(delta_y, delta_x);
+
+    // Specify quaternions
+    rot_euler.setEulerYPR(yaw_curr, pitch_curr, roll_curr);
+    rot_euler.getRotation(rot_quat);
+
+    goal.target_pose.pose.orientation.x = rot_quat.getX();
+    goal.target_pose.pose.orientation.y = rot_quat.getY();
+    goal.target_pose.pose.orientation.z = rot_quat.getZ();
+    goal.target_pose.pose.orientation.w = rot_quat.getW();
+
+    return goal;
+}
+
+
+move_base_msgs::MoveBaseGoal half_rotation()
+{
+    move_base_msgs::MoveBaseGoal goal;
+    tf::Matrix3x3 rot_euler;
+    tf::Quaternion rot_quat;
+    //Specify what frame we want the goal to be published in
+    goal.target_pose.header.frame_id = "base_link";
+    goal.target_pose.header.stamp = ros::Time::now();
+    float yaw_curr = 0, pitch_curr = 0, roll_curr = 0;
+    yaw_curr = 3.14;
+
+    // Specify quaternions
+    rot_euler.setEulerYPR(yaw_curr, pitch_curr, roll_curr);
+    rot_euler.getRotation(rot_quat);
+    // Specify x and y, w goal
+    goal.target_pose.pose.position.x = 0.0; //specify x goal
+    goal.target_pose.pose.position.y = 0.0; //specify y goal
+    // goal.target_pose.pose.orientation.z = 1.0;
+    // goal.target_pose.pose.orientation.w = 0.0;
+    goal.target_pose.pose.orientation.x = rot_quat.getX();
+    goal.target_pose.pose.orientation.y = rot_quat.getY();
+    goal.target_pose.pose.orientation.z = rot_quat.getZ();
+    goal.target_pose.pose.orientation.w = rot_quat.getW();
     return goal;
 }
 

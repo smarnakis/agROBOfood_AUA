@@ -41,43 +41,36 @@ int main(int argc, char** argv)
 
     //Reading waypoints from text file and output results
     waypointVect = getWaypoints(path_local);
-		
+	ROS_WARN("Waypoint vector length = %d",waypointVect.size());
     // Iterate through vector of waypoints for setting goals
-    for(iter = waypointVect.begin(); iter < waypointVect.end(); iter++)
+
+    for(iter = waypointVect.begin(); iter < (waypointVect.end() - 1); iter++)
     {
         //Setting goal:
-        latiGoal = iter->first;
-        longiGoal = iter->second;
+        latiCurr = iter->first;
+        longiCurr = iter->second;
         bool final_point = false;
 
         //set next goal point if not at last waypoint
-        if(iter < (waypointVect.end() - 1))
-        {
-            iter++;
-            latiNext = iter->first;
-            longiNext = iter->second;
-            iter--;
-        }
-        else //set to current
-        {
-            latiNext = iter->first;
-            longiNext = iter->second;
-            final_point = true;
-        }
+        iter++;
+        latiGoal = iter->first;
+        longiGoal = iter->second;
+        iter--;
+
 
         ROS_INFO("Received Latitude goal:%.8f", latiGoal);
         ROS_INFO("Received longitude goal:%.8f", longiGoal);
 
         //Convert lat/long to utm:
-        UTM_point = latLongtoUTM(latiGoal, longiGoal);
-        UTM_next = latLongtoUTM(latiNext, longiNext);
+        UTM_point = latLongtoUTM(latiCurr, longiCurr);
+        UTM_next = latLongtoUTM(latiGoal, longiGoal);
 
         //Transform UTM to map point in odom frame
         map_point = UTMtoMapPoint(UTM_point);
         map_next = UTMtoMapPoint(UTM_next);
 
         //Build goal to send to move_base
-        move_base_msgs::MoveBaseGoal goal = buildGoal(map_point, map_next, final_point); //initiate a move_base_msg called goal
+        move_base_msgs::MoveBaseGoal goal = buildGoal_2(map_point, map_next); //initiate a move_base_msg called goal
 
         // Send Goal
         ROS_INFO("Sending goal");

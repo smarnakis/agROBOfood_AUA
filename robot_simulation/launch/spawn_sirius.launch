@@ -2,8 +2,9 @@
 
 <launch>
 
-	<arg name="world_name" default="$(find robot_simulation)worlds/aua_field1.world"/>
-
+<!-- 	<arg name="world_name" default="$(find robot_simulation)/worlds/aua_field1.world"/>
+ -->	
+ 	<arg name="world_name" default="worlds/empty.world"/>
 	<arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
   <arg name="z" default="0.0"/>

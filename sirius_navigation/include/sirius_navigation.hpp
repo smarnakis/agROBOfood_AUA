@@ -57,7 +57,7 @@ extern std::vector<std::pair < double, double> > ::iterator iter; //init. iterat
 extern geometry_msgs::PointStamped UTM_point, map_point, UTM_next, map_next;
 extern int count, waypointCount, wait_count;
 extern double numWaypoints;
-extern double latiGoal, longiGoal, latiNext, longiNext;
+extern double latiGoal, longiGoal, latiNext, longiNext, latiCurr, longiCurr;
 extern std::string utm_zone;
 extern std::string path_local, path_abs;
 
@@ -70,8 +70,11 @@ geometry_msgs::PointStamped latLongtoUTM(double lati_input, double longi_input);
 geometry_msgs::PointStamped UTMtoMapPoint(geometry_msgs::PointStamped UTM_input);
 //Create moveBaseGoal msg for the move base action client.
 move_base_msgs::MoveBaseGoal buildGoal(geometry_msgs::PointStamped map_point, geometry_msgs::PointStamped map_next, bool last_point);
+move_base_msgs::MoveBaseGoal buildGoal_2(geometry_msgs::PointStamped map_point_curr, geometry_msgs::PointStamped map_goal);
 //Simple move_Base goal
 move_base_msgs::MoveBaseGoal simpleGoal(tf::StampedTransform map_pose);
+// Half rotation function
+move_base_msgs::MoveBaseGoal half_rotation();
 
 // Way-point file management
 int countWaypointsInFile(std::string path_local);
