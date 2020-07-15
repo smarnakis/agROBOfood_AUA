@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot>
 
-  <!-- Insert GPS -->
-  
+	<!-- Mounting Stand Links -->
+  <link name="left_side_stand_link">
+  <visual>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <mesh filename="package://sirius/urdf/meshes/sidestands_v2.STL" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  </link>
+
+  <link name="right_side_stand_link">
+  <visual>
+    <origin xyz="0 0 0" rpy="1.57 0 0" />
+    <geometry>
+      <mesh filename="package://sirius/urdf/meshes/sidestands_v2.STL" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  </link>
+
+  <link name="mid_stand_link">
+  <visual>
+    <origin xyz="0 0 0" rpy="-1.57 -1.57 0" />
+    <geometry>
+      <mesh filename="package://sirius/urdf/meshes/mid_square.STL" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  </link>
+
+  <!-- GPS Link -->
   <link name="GPS_link">
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0" />
@@ -11,11 +38,32 @@
     </geometry>
   </visual>
   </link>
+  
+  <!-- Mounting Stand Joints -->
+  <!-- To move the whole mounting structure along with the mounted sensors change only the right_side_stand_joint -->
 
-  <joint name="GPS_joint" type="fixed">
+  <joint name="right_side_stand_joint" type="fixed">
     <parent link="top_plate_link" />
-    <child link="GPS_link" />
-    <origin xyz="-0.2 0 0.045" rpy="0 0 0" />
+    <child link="right_side_stand_link" />
+    <origin xyz="-0.1 -0.255 0.005" rpy="0 0 0" />
   </joint>
   
+  <joint name="left_side_stand_joint" type="fixed">
+    <parent link="right_side_stand_link" />
+    <child link="left_side_stand_link" />
+    <origin xyz="0. 0.53 0.0" rpy="0 0 0" />
+  </joint>
+
+  <joint name="mid_stand_joint" type="fixed">
+    <parent link="right_side_stand_link" />
+    <child link="mid_stand_link" />
+    <origin xyz="0.0 -0.012 0.49" rpy="0 0 0" />
+  </joint>
+
+  <joint name="GPS_joint" type="fixed">
+    <parent link="mid_stand_link" />
+    <child link="GPS_link" />
+    <origin xyz="0.0 0.1 0.155" rpy="0 0 0" />
+  </joint>
+
 </robot>

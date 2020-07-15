@@ -42,6 +42,9 @@ add_executable(collect_gps_waypoints src/collect_gps_waypoints.cpp)
 add_executable(gps_planer src/gps_planer.cpp src/functions.cpp)
 add_executable(gps_planer_2 src/gps_planner_2.cpp src/functions.cpp)
 add_executable(half_rotation src/half_rotation.cpp src/functions.cpp)
+add_executable(keyboard src/keyboard.cpp src/functions.cpp)
+
+
 
 target_link_libraries(simple_planer ${catkin_LIBRARIES})
 target_link_libraries(map_coords_planner ${catkin_LIBRARIES})
@@ -50,3 +53,4 @@ target_link_libraries(collect_gps_waypoints ${catkin_LIBRARIES})
 target_link_libraries(gps_planer ${catkin_LIBRARIES})
 target_link_libraries(gps_planer_2 ${catkin_LIBRARIES})
 target_link_libraries(half_rotation ${catkin_LIBRARIES})
+target_link_libraries(keyboard ${catkin_LIBRARIES})

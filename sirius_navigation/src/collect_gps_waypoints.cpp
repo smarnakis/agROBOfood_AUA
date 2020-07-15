@@ -4,22 +4,41 @@
 bool collect_request;
 bool continue_collection = true;
 double lat_curr=0,long_curr=0,lat_last=0,long_last=0;
-int end_btn_num1 = 0, end_btn_num2 = 0, collect_btn_num = 0;
+int end_btn_num1 = 0, end_btn_num2 = 0, collect_btn_num = 0,key_collect_button = 0, key_end_button = 0,keyboard_option = 0;
 double min_coord_change = 10 * pow(10,-6);
 
 void collect_CB(const sensor_msgs::Joy::ConstPtr& msg){
-	if(msg->buttons[collect_btn_num]==1)
-	{
-		collect_request = true;
-	}
-	else
-	{
-		collect_request = false;
-	}
+	if(key_collect_button == 0){
+		if(msg->buttons[collect_btn_num]==1)
+		{
+			collect_request = true;
+		}
+		else
+		{
+			collect_request = false;
+		}
 
-	if(msg->buttons[end_btn_num1]==1 && msg->buttons[end_btn_num2]==1)
-	{
-		continue_collection = false;
+		if(msg->buttons[end_btn_num1]==1 && msg->buttons[end_btn_num2]==1)
+		{
+			continue_collection = false;
+		}
+	}
+}
+
+void key_collect_CB(const std_msgs::Int32::ConstPtr& msg){
+	if(key_collect_button==1){
+		if(msg->data==key_collect_button)
+		{
+			collect_request = true;
+		}
+		else
+		{
+			collect_request = false;
+		}
+		if(msg->data==key_end_button)
+		{
+			continue_collection = false;
+		}
 	}
 }
 
@@ -44,12 +63,24 @@ int main(int argc, char *argv[])
 	ros::Time time_current;
 	ros::Duration duration_min(1);
 
-// Get button numbers to collect waypoints and end collection
-	ros::param::get("/collector/collect_button_num", collect_btn_num);
-	ros::param::get("/collector/end_button_num1", end_btn_num1);
-	ros::param::get("/collector/end_button_num2", end_btn_num2);
+	// Get button numbers to collect waypoints and end collection
+	ros::param::get("/collector/keyboard_option", keyboard_option);
+	if (keyboard_option == 0) {
+		ROS_INFO("Collecting Keypoints with the Joystick.");
+		ros::param::get("/collector/collect_button_num", collect_btn_num);
+		ros::param::get("/collector/end_button_num1", end_btn_num1);
+		ros::param::get("/collector/end_button_num2", end_btn_num2);
+		// ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 100, collect_CB);
+	}
+	else{
+		ROS_INFO("Collecting Keypoints with the Keyboard.");
+		ros::param::get("/collector/key_collect_button", key_collect_button);
+		ros::param::get("/collector/key_end_button", key_end_button);
+		// ros::Subscriber sub_key = n.subscribe("/key_for_collection", 100, key_collect_CB);
+	}
 
   //Initiate subscribers
+	ros::Subscriber sub_key = n.subscribe("/key_for_collection", 100, key_collect_CB);
 	ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 100, collect_CB);
 	ros::Subscriber sub_gps = n.subscribe("/gps/filtered", 100, gps_CB);
 	ROS_INFO("Initiated collect_waypoints node");

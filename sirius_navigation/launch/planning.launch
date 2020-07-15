@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="planner_2" default="true"/>
+	
+	<!-- Load collector params -->
+	<rosparam command="load" file="$(find sirius_navigation)/config/collector.yaml"/>
+	
+	<group if="$(arg planner_2)">
+			<node pkg="sirius_navigation" type="gps_planer_2" name="gps_planner" output="screen"/>
+	</group>
+	<group unless="$(arg planner_2)">
+			<node pkg="sirius_navigation" type="gps_planer" name="gps_planner" output="screen"/>
+	</group>
+
+</launch>
