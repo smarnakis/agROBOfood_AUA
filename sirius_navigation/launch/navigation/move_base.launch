@@ -19,16 +19,16 @@
 
     <!-- local costmap, needs size -->
     <rosparam file="$(find sirius_navigation)/config/costmap_local.yaml" command="load" ns="local_costmap" />
-    <param name="local_costmap/width" value="8.0"/>
-    <param name="local_costmap/height" value="8.0"/>
+    <param name="local_costmap/width" value="12.0"/>
+    <param name="local_costmap/height" value="12.0"/>
 
     <!-- Static map case -->
     <rosparam file="$(find sirius_navigation)/config/costmap_global_static.yaml" command="load" ns="global_costmap" unless="$(arg no_static_map)"/>
     
     <!-- No static map case -->
     <rosparam file="$(find sirius_navigation)/config/costmap_global_laser.yaml" command="load" ns="global_costmap" if="$(arg no_static_map)"/>
-    <param name="global_costmap/width" value="50.0" if="$(arg no_static_map)"/>
-    <param name="global_costmap/height" value="50.0" if="$(arg no_static_map)"/>
+    <param name="global_costmap/width" value="30.0" if="$(arg no_static_map)"/>
+    <param name="global_costmap/height" value="30.0" if="$(arg no_static_map)"/>
 
     <remap from="odom" to="/odometry/filtered_map" />
     <!-- <remap from="/cmd_vel" to="/cmd_vel" /> -->
