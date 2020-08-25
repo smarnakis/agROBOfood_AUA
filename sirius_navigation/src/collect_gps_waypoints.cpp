@@ -1,12 +1,14 @@
 #include "sirius_navigation.hpp"
 
-
+// global params initialisation
 bool collect_request;
 bool continue_collection = true;
 double lat_curr=0,long_curr=0,lat_last=0,long_last=0;
 int end_btn_num1 = 0, end_btn_num2 = 0, collect_btn_num = 0,key_collect_button = 0, key_end_button = 0,keyboard_option = 0;
 double min_coord_change = 10 * pow(10,-6);
 
+/********** Callback functions **********/
+// Standard collector callback function --> JOYSTICK
 void collect_CB(const sensor_msgs::Joy::ConstPtr& msg){
 	if(key_collect_button == 0){
 		if(msg->buttons[collect_btn_num]==1)
@@ -25,6 +27,7 @@ void collect_CB(const sensor_msgs::Joy::ConstPtr& msg){
 	}
 }
 
+// Secondary collector callback function --> KEYBOARD
 void key_collect_CB(const std_msgs::Int32::ConstPtr& msg){
 	if(key_collect_button==1){
 		if(msg->data==key_collect_button)
@@ -45,10 +48,10 @@ void key_collect_CB(const std_msgs::Int32::ConstPtr& msg){
 
 void gps_CB(const sensor_msgs::NavSatFix::ConstPtr& gps_msg)
 {
-		lat_curr = gps_msg->latitude;
-		long_curr = gps_msg->longitude;
+	lat_curr = gps_msg->latitude;
+	long_curr = gps_msg->longitude;
 }
-
+/****************************************/
 
 int main(int argc, char *argv[])
 {
@@ -63,6 +66,10 @@ int main(int argc, char *argv[])
 	ros::Time time_current;
 	ros::Duration duration_min(1);
 
+	ROS_INFO("Welcome to the gps waypoint collector!");
+	ROS_INFO("To change the collector's base parameters please modify the 'collector.yaml' file located in the 'config' folder.");
+	ROS_INFO("The first waypoint should be the initial position of the robot.");
+	
 	// Get button numbers to collect waypoints and end collection
 	ros::param::get("/collector/keyboard_option", keyboard_option);
 	if (keyboard_option == 0) {
@@ -70,13 +77,11 @@ int main(int argc, char *argv[])
 		ros::param::get("/collector/collect_button_num", collect_btn_num);
 		ros::param::get("/collector/end_button_num1", end_btn_num1);
 		ros::param::get("/collector/end_button_num2", end_btn_num2);
-		// ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 100, collect_CB);
 	}
 	else{
 		ROS_INFO("Collecting Keypoints with the Keyboard.");
 		ros::param::get("/collector/key_collect_button", key_collect_button);
 		ros::param::get("/collector/key_end_button", key_end_button);
-		// ros::Subscriber sub_key = n.subscribe("/key_for_collection", 100, key_collect_CB);
 	}
 
   //Initiate subscribers
@@ -106,8 +111,6 @@ int main(int argc, char *argv[])
 				{
 					//write waypoint
 					ROS_INFO("You have collected another waypoint: X: %f, Y: %f\n",lat_curr,long_curr);
-/*							ROS_INFO("Press %s button to collect and store another waypoint.", collect_button_sym.c_str());
-					ROS_INFO("Press %s button to end waypoint collection.", end_button_sym.c_str());*/
 					std::cout << std::endl;
 					numWaypoints++;
 					coordFile << std::fixed << std::setprecision(8) << lat_curr << " " << long_curr << std::endl;

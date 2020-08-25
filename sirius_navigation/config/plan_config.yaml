@@ -2,4 +2,4 @@ planner:
   trigger_button1: 4
   trigger_button2: 5
   coordinates_file: "/waypoint_files/map_waypoints.txt"
-  gps_coordinates_file: "/waypoint_files/simulation_gps_waypoints2.txt"
+  gps_coordinates_file: "/waypoint_files/field_gps_waypoints_final2.txt"

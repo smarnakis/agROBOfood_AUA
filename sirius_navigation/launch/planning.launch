@@ -4,7 +4,7 @@
 	<arg name="planner_2" default="true"/>
 	
 	<!-- Load collector params -->
-	<rosparam command="load" file="$(find sirius_navigation)/config/collector.yaml"/>
+	<!-- 	<rosparam command="load" file="$(find sirius_navigation)/config/collector.yaml"/> -->
 	<rosparam command="load" file="$(find sirius_navigation)/config/plan_config.yaml"/>
 	
 	<group if="$(arg planner_2)">

@@ -26,6 +26,9 @@ int main(int argc, char** argv)
     ROS_INFO("Initiated gps_waypoint node");
     MoveBaseClient ac("/move_base", true);
 
+    ROS_INFO("WELLCOME to gps_planner_3!!");
+    ROS_INFO("This planner awaits a trigger from the joystick to move from keypoint to keypoint");
+
     //Subscribe to joystick to listen to the motion trigger.
     ros::Subscriber sub_joy = n.subscribe("/joy_teleop/joy", 1, resume_motion_callback);
     ros::param::get("/planner/trigger_button1", trig_but1);
@@ -60,7 +63,7 @@ int main(int argc, char** argv)
 
     //Reading waypoints from text file and output results
     waypointVect = getWaypoints(path_local);
-	ROS_WARN("Waypoint vector length = %d",waypointVect.size());
+	ROS_WARN("Waypoint vector length = %d",int(waypointVect.size()));
     // Iterate through vector of waypoints for setting goals
 
     for(iter = waypointVect.begin(); iter < (waypointVect.end() - 1); iter++)
@@ -91,7 +94,7 @@ int main(int argc, char** argv)
         //Build goal to send to move_base
         move_base_msgs::MoveBaseGoal goal = buildGoal_2(map_point, map_next); //initiate a move_base_msg called goal
 
-        ROS_INFO("Sirius waits for motion trigger...");
+        ROS_WARN("Sirius waits for motion trigger...");
         while(!trigger){
             ros::spinOnce();
         }

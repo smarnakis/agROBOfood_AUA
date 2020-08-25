@@ -1,0 +1,48 @@
+Usefull Command to enable Sirius functionalities.
+
+1) The two modes of operation. T
+	The modes of operation can be regulated in the file: 
+
+	/etc/ros/setup.bash
+
+	a) Basic mode (wheel encoder + IMU): Set HUSKY_EXTRAS=0.
+	b) Second mode (basic + laser + GPS): Set HUSKY_EXTRAS=1.
+
+	Once the flag is reset, run: $sudo service ros restart, to relaunch ros with the new configuration.
+	!NOTE!: Firstly fire up the sensor hardware and then change to the secondary mode in order for the drivers to work correctly.
+
+	TO check if the laser and gps driver work properly, run:
+	$rostopic echo /scan 
+	$rostopic echo /navsat/fix
+	You sould see streams of ros messages. Otherwise, most likely it is a hardware problem so check cable connections.
+
+2) The most important tasks.
+	a) Initiating gps localization. 
+	In order for Sirius to use the gps information and utilize an absolute reference frame for its localization you should proceed to the following actions once the robot has reached the experimental site:
+	
+	$sudo service ros restart
+	$roslaunch sirius_navigation outdoor_nav.launch
+
+	The first command relaunches ros in order to renew the odom frame to the location of the experiment.
+	The second command initiates the global reference frame localisation.
+
+	b) Gathering gps waypoints.
+	Firstly perform action in step 2.a
+	Secondly fire the collector via running:
+
+	$roslaunch sirius_navigation collect_gps_waypoints.launch
+
+	!NOTE!: Be careful to configure the collector.yaml file before launching the later launch file or you may overwrite older collections. 
+	With the current configuration, to collect a waypoint press 'B' and to end the collection process press 'LB','RB' simultaneously. 
+
+	c) Navigating to the gathered waypoints.
+	Firstly perform action in step 2.a
+	Secondly run the following command to begin autonomous navigation:
+
+	$roslaunch sirius_navigation planning.launch
+
+	You can configure the waypoint file the planner uses as input via the configuration file: plan_config.yaml
+	!NOTE!: The default planning option is 'gps_planner_2'. To selecte the gps_planner_3 which provides a trigger option, set the flag planner_2:=false.
+
+
+

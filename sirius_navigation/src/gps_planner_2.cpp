@@ -11,8 +11,9 @@ int main(int argc, char** argv)
     ros::NodeHandle n;
     ROS_INFO("Initiated gps_waypoint node");
     MoveBaseClient ac("/move_base", true);
-    //construct an action client that we use to communication with the action named move_base.
-    //Setting true is telling the constructor to start ros::spin()
+
+    ROS_INFO("WELLCOME to gps_planner_2!!");
+    ROS_INFO("This planner DOES NOT wait for a trigger from the joystick to move from keypoint to keypoint");
 
     // Initiate publisher to send end of node message
     ros::Publisher pubWaypointNodeEnded = n.advertise<std_msgs::Bool>("/waypoint_following_status", 100);
@@ -34,14 +35,13 @@ int main(int argc, char** argv)
     }
 
     //Get Longitude and Latitude goals from text file
-
     //Count number of waypoints
-    ros::param::get("/collector/gps_coordinates_file", path_local);
+    ros::param::get("/planner/gps_coordinates_file", path_local);
     numWaypoints = countWaypointsInFile(path_local);
 
     //Reading waypoints from text file and output results
     waypointVect = getWaypoints(path_local);
-	ROS_WARN("Waypoint vector length = %d",waypointVect.size());
+	ROS_WARN("Waypoint vector length = %d",int(waypointVect.size()));
     // Iterate through vector of waypoints for setting goals
 
     for(iter = waypointVect.begin(); iter < (waypointVect.end() - 1); iter++)

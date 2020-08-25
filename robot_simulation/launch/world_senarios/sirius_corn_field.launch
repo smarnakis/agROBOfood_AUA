@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+    <arg name="world_name" default="$(find robot_simulation)/worlds/aua_field1.world"/>
+    <arg name="laser_enabled" default="true"/>
+    <!-- Open corn outdoor world -->
+    <include file="$(find robot_simulation)/launch/spawn_sirius.launch">
+      <arg name="laser_enabled" value="$(arg laser_enabled)"/>
+      <arg name="world_name" value="$(arg world_name)"/>
+    </include> 
+
+    <!-- Initiate the laser filter -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find sirius)/config/laser_filter.yaml" />
+      <remap from="/scan" to="/scan_unfiltered" />
+      <remap from="/scan_filtered" to="/scan" />
+    </node>
+</launch>
